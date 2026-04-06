@@ -28,6 +28,7 @@ const Agent = ({
   feedbackId,
   type,
   questions,
+  assistantId,
 }: AgentProps) => {
   const router = useRouter();
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
@@ -118,15 +119,14 @@ const Agent = ({
     setCallStatus(CallStatus.CONNECTING);
 
     if (type === "generate") {
-      const workflowId = process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID;
-      if (!workflowId) {
-        console.error("VAPI workflow id is missing. Set NEXT_PUBLIC_VAPI_WORKFLOW_ID in your .env.local");
-        // revert to inactive so user can try again or the UI can display a message
+      const effectiveAssistantId = assistantId || process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID;
+      if (!effectiveAssistantId) {
+        console.error("Missing VAPI assistant id.", { assistantId, effectiveAssistantId });
         setCallStatus(CallStatus.INACTIVE);
         return;
       }
 
-      await vapi.start(workflowId, {
+      await vapi.start(effectiveAssistantId, {
         variableValues: {
           username: userName,
           userid: userId,

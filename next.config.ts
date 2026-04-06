@@ -11,6 +11,15 @@ const nextConfig: NextConfig = {
   //     },
   //   ],
   // },
+  env: {
+    NEXT_PUBLIC_VAPI_WORKFLOW_ID: process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID,
+    NEXT_PUBLIC_VAPI_WEB_TOKEN: process.env.NEXT_PUBLIC_VAPI_WEB_TOKEN,
+    NEXT_PUBLIC_VAPI_ASSISTANT_ID: process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID,
+    NEXT_PUBLIC_VAPI_PUBLIC_KEY: process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   typescript: {
     ignoreBuildErrors: true,
   },

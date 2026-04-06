@@ -13,6 +13,7 @@ const Page = async () => {
         userId={user?.id}
         profileImage={user?.profileURL}
         type="generate"
+        assistantId={process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID}
       />
     </>
   );
