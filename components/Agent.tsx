@@ -118,7 +118,15 @@ const Agent = ({
     setCallStatus(CallStatus.CONNECTING);
 
     if (type === "generate") {
-      await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
+      const workflowId = process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID;
+      if (!workflowId) {
+        console.error("VAPI workflow id is missing. Set NEXT_PUBLIC_VAPI_WORKFLOW_ID in your .env.local");
+        // revert to inactive so user can try again or the UI can display a message
+        setCallStatus(CallStatus.INACTIVE);
+        return;
+      }
+
+      await vapi.start(workflowId, {
         variableValues: {
           username: userName,
           userid: userId,
